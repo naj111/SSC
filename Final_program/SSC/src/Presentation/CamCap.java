@@ -17,7 +17,7 @@ import org.opencv.core.Core;
 
 public class CamCap extends javax.swing.JFrame {
 
-    // initializing objects for the cpture mechanisms
+    // initializing objects for the capture mechanisms
     private DaemonThread myThread = null;
     int count = 0;
     VideoCapture webSource = null;
@@ -67,12 +67,7 @@ public class CamCap extends javax.swing.JFrame {
         initComponents();
     }
 
-//    public void close(){
-//    
-//        CamCap cc = new CamCap();
-//        cc.setVisible(false);
-//        
-//    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -260,7 +255,7 @@ public class CamCap extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-// Stops the capturing
+        // Stops the capturing
         if ((jButton2.getText()).equals("Stop")) {
             myThread.runnable = false;
             jButton2.setEnabled(false);
@@ -285,7 +280,7 @@ public class CamCap extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // from file capture mechanism enables to display sleected file on the panel
+        // from file capture mechanism enables to display selected file on the panel
         if (jComboBox1.getSelectedItem().equals("From File")) {
             jButton3.setEnabled(true);
             jButton1.setEnabled(false);

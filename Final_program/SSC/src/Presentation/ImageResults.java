@@ -187,7 +187,7 @@ public class ImageResults extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
-
+//opens the camera capture inteface and closes current interface
         CamCap CC = new CamCap();
         CC.setVisible(true);
         dispose();

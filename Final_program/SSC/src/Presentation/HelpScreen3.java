@@ -91,7 +91,7 @@ public class HelpScreen3 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_hlp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hlp3ActionPerformed
-        
+        // opens previous screen and closes current screen
         ImageResults IR = new ImageResults();
         IR.setVisible(true);
         dispose();

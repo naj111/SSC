@@ -6,11 +6,7 @@ public class HelpScreen1 extends javax.swing.JFrame {
         initComponents();
     }
 
-//    public void close(){
-//    
-//        HelpScreen1 hp = new HelpScreen1();
-//        hp.setVisible(false);
-//    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

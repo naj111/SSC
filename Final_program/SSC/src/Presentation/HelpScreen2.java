@@ -87,7 +87,7 @@ public class HelpScreen2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_hlp2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hlp2ActionPerformed
-        
+        // opens the previous screen and closes current screen
         ImageProcessed IP = new ImageProcessed();
         IP.setVisible(true);
         dispose();

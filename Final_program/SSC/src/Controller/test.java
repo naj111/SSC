@@ -64,7 +64,7 @@ public class test {
         LinkedList<DMatch> goodMatchesList = new LinkedList<DMatch>();
 
         //discards poor matches by setting threshold (only stores matches below the threshold set)
-        float nndrRatio = 0.7f;
+        float nndrRatio = 0.7f;// threshold set (min distance between the discriptors)
 
         for (int i = 0; i < matches.size(); i++) {
             MatOfDMatch matofDMatch = matches.get(i);
