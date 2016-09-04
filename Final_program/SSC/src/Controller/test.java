@@ -126,6 +126,7 @@ public class test {
 
             Highgui.imwrite("output//outputImage.jpg", outputImage);
             Highgui.imwrite("output//matchoutput.jpg", matchoutput);
+            // output images
             Highgui.imwrite("output//img.jpg", img);
         } else {
             System.out.println("Object Not Found");
