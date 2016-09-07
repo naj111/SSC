@@ -14,5 +14,10 @@
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
             <definitions>C:\opencv\build\java\x86\nblibraries.properties</definitions>
         </libraries>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>ConsoleAppender</word>
+            <word>org</word>
+            <word>RollingFileAppender</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>

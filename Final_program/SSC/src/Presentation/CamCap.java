@@ -14,6 +14,9 @@ import org.opencv.core.MatOfByte;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 import org.opencv.core.Core;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 
 public class CamCap extends javax.swing.JFrame {
 
@@ -332,6 +335,8 @@ public class CamCap extends javax.swing.JFrame {
                 }
 
                 new CamCap().setVisible(true);
+                
+               PropertyConfigurator.configure("log4j.properties");
             }
         });
 
