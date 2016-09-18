@@ -2,9 +2,10 @@
 package Image_Process;
 
 import Error_Logs.PathConfig;
-import static Neural_Network.DetectDisease_NN.DetectDisease;
+
 
 import static Image_Process.SkinColour.SkinCol;
+import static User_Interface.SmartSkinCare.DetectDisease;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -31,12 +32,11 @@ public class ImageProcess {
     public static void RightCheek(String Path) throws Exception {
 
         BufferedImage MainImage = ImageIO.read(new File(Path));
-        BufferedImage RightCheek = MainImage.getSubimage(100, 100, 100, 100);
+        BufferedImage RightCheek = MainImage.getSubimage(399, 200, 100, 100);
         ImageIO.write(RightCheek, "jpg", new File(MainPath + "RightCheek.jpg"));
         SkinCol(MainPath + "RightCheek.jpg");
         setContrast(MainPath + "RightCheek.jpg");
 
-        //impulseNoise(MainPath + "RightCheek.jpg");
         Grayscale(MainPath + "RightCheek.jpg");
         LoadImage();
 
@@ -46,9 +46,13 @@ public class ImageProcess {
     public static void LeftCheek(String Path) throws Exception {
 
         BufferedImage MainImage = ImageIO.read(new File(Path));
-        BufferedImage LeftCheek = MainImage.getSubimage(100, 100, 100, 100);
+        BufferedImage LeftCheek = MainImage.getSubimage(51, 211, 200, 262);
         ImageIO.write(LeftCheek, "jpg", new File(MainPath + "LeftCheek.jpg"));
         SkinCol(MainPath + "LeftCheek.jpg");
+         setContrast(MainPath + "LeftCheek.jpg");
+
+        Grayscale(MainPath + "LeftCheek.jpg");
+        LoadImage();
     }
 
     // chanigning the coloured image to grayscale image (black and white)//
@@ -130,17 +134,19 @@ public class ImageProcess {
 
             BufferedImage image = ImageIO.read(new File(MainPath + "GrayScalImage.jpg"));
             numberArray = toStringArray(image);
-            // DetectDisease(numberArray);
-            int count = 0;
-            for (String s : numberArray) {
-                System.out.print(s + ",");
-                count++;
-
-                if (count == size) {
-                    System.out.println("");
-                    count = 0;
-                }
-            }
+             DetectDisease(numberArray);
+//            int count = 0;
+//            
+//            for (String s : numberArray) {
+//                System.out.print(s + ",");
+//                count++;
+//
+//                if (count == size) {
+//                    System.out.println("");
+//                    count = 0;
+//                }
+//            }
+//            System.out.println("");
         } catch (Exception ex) {
             // Logger.getLogger(ImageBinarization.class.getName()).log(Level.SEVERE, null, ex);
         }

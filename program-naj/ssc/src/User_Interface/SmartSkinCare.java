@@ -1,15 +1,12 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this temp file, choose Tools | Templates
+ * and open the temp in the editor.
  */
 package User_Interface;
 
 import Error_Logs.PathConfig;
-import static Neural_Network.Training_NN.nN;
-import static Neural_Network.Training_NN.template;
-import static Neural_Network.Training_NN.tested;
-import static Neural_Network.Training_NN.trained;
+
 import static Image_Process.ImageProcess.LeftCheek;
 import static Image_Process.ImageProcess.RightCheek;
 import static Image_Process.SkinColour.SkinCol;
@@ -27,44 +24,48 @@ import weka.classifiers.Evaluation;
 import weka.classifiers.lazy.IBk;
 import weka.core.Instance;
 import weka.core.Instances;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.util.HashMap;
+import java.util.Locale;
+import javax.swing.*;
 
 /**
  *
  * @author SC
  */
-
 public class SmartSkinCare extends javax.swing.JFrame {
 
     public static PathConfig I_PATH = new PathConfig();
     public static String MainPath = (I_PATH.GetPaths("PImage"));
-    private static  String trainDataPath="arff/train.arff";
-    private static String testDataPath="arff/test.arff"; //1
-    private static String dataSetTemplate="arff/template.arff";
-    private static IBk nN;
+    public static String trainDataPath = "arff/traind.arff";
+    public static String testDataPath = "arff/testd.arff"; //1
+    public static String dataSetTemplate = "arff/temp.arff";
+    public static IBk nN;
 
-    private static Instances trainSet;
-    private static Instances testSet;
-    private static Instances template;
-    private static boolean trained = false;
-    private static boolean tested = false;
-String filename = null;
-
+    public static Instances trainSet;
+    public static Instances testSet;
+    public static Instances temp;
+    public static boolean trained = false;
+    public static boolean tested = false;
+    String filename = null;
+    
+    public static JTextArea jt;
 
     /**
      * Creates new form SmartSkinCare
      */
     public SmartSkinCare() {
         initComponents();
-      //  Startsys();
+        Startsys();
         RCButton.setOpaque(false);
-RCButton.setContentAreaFilled(false);
-LCButton.setOpaque(false);
-LCButton.setContentAreaFilled(false);
+        RCButton.setContentAreaFilled(false);
+        LCButton.setOpaque(false);
+        LCButton.setContentAreaFilled(false);
 
-      
         RCButton.hide();
         LCButton.hide();
-    
+        jt = this.jTextArea1;
 
     }
 
@@ -84,6 +85,8 @@ LCButton.setContentAreaFilled(false);
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         SkinColorjLabel = new javax.swing.JLabel();
+        Result_Panel = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         HelpButton = new javax.swing.JButton();
 
@@ -120,6 +123,7 @@ LCButton.setContentAreaFilled(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jButton1.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         jButton1.setText("Select Image");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,33 +131,42 @@ LCButton.setContentAreaFilled(false);
             }
         });
 
-        SkinColorjLabel.setText("jLabel2");
+        SkinColorjLabel.setFont(new java.awt.Font("Lucida Sans", 1, 18)); // NOI18N
+        SkinColorjLabel.setForeground(new java.awt.Color(51, 51, 255));
+        SkinColorjLabel.setText("Analysis Results:");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        Result_Panel.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(SkinColorjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Result_Panel)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(SkinColorjLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jButton1)
+                .addGap(31, 31, 31)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(SkinColorjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(523, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Result_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLayeredPane1.add(jPanel1);
-        jPanel1.setBounds(650, 10, 430, 650);
+        jPanel1.setBounds(650, 10, 430, 340);
 
         jLabel2.setFont(new java.awt.Font("Lucida Sans Typewriter", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 255));
@@ -194,117 +207,112 @@ LCButton.setContentAreaFilled(false);
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-     public static void SColor(String Color){
-     
-         String LL = Color;
-       
-     
-     }
+    public static void SColor(String Color) {
+
+        String LL = Color;
+
+    }
 
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser();
         fc.showOpenDialog(null);
         File f = fc.getSelectedFile();
         filename = f.getAbsolutePath();
         ImageIcon imageIcon = new ImageIcon(filename);
         Image image = imageIcon.getImage();
-        Image newimg = image.getScaledInstance(650, 625,  java.awt.Image.SCALE_SMOOTH);
+        Image newimg = image.getScaledInstance(650, 625, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         jLabel1.setIcon(imageIcon);
         RCButton.show();
         LCButton.show();
-       
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void RCButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RCButtonActionPerformed
-    try {
-        RightCheek(filename);  
-        ImageIcon imageIcon = new ImageIcon(MainPath+"RightCheek.jpg");
-        Image image = imageIcon.getImage();
-        Image newimg = image.getScaledInstance(650, 625,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        jLabel1.setIcon(imageIcon);
-        SkinCol(MainPath+"RightCheek.jpg");
-          RCButton.hide();
-        LCButton.hide();
-    } catch (Exception ex) {
-        Logger.getLogger(SmartSkinCare.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        try {
+            RightCheek(filename);
+            ImageIcon imageIcon = new ImageIcon(MainPath + "RightCheek.jpg");
+            Image image = imageIcon.getImage();
+            Image newimg = image.getScaledInstance(650, 625, java.awt.Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(newimg);
+            jLabel1.setIcon(imageIcon);
+            SkinCol(MainPath + "RightCheek.jpg");
+            RCButton.hide();
+            LCButton.hide();
+        } catch (Exception ex) {
+            Logger.getLogger(SmartSkinCare.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_RCButtonActionPerformed
 
     private void LCButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LCButtonActionPerformed
-  
-     try {
-        LeftCheek(filename);        
-    } catch (Exception ex) {
-        Logger.getLogger(SmartSkinCare.class.getName()).log(Level.SEVERE, null, ex);
-    } // TODO add your handling code here:
+
+        try {
+            LeftCheek(filename);
+            ImageIcon imageIcon = new ImageIcon(MainPath + "LeftCheek.jpg");
+            Image image = imageIcon.getImage();
+            Image newimg = image.getScaledInstance(650, 625, java.awt.Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(newimg);
+            jLabel1.setIcon(imageIcon);
+            SkinCol(MainPath + "LeftCheek.jpg");
+            RCButton.hide();
+            LCButton.hide();
+        } catch (Exception ex) {
+            Logger.getLogger(SmartSkinCare.class.getName()).log(Level.SEVERE, null, ex);
+        } // TODO add your handling code here:
     }//GEN-LAST:event_LCButtonActionPerformed
 
-    
-    
     public void Startsys() {
 
-           trainNet();
-        if(isTrained()){
-            
+        trainNet();
+        if (isTrained()) {
+
 //            jProgressBar1.setValue(70);
 //            jLabel6.setText("Testing the neural network....");
             int[] results = testNet();
-            if(isTested()){
+            if (isTested()) {
 //            jLabel6.setText("Neural network ready....");
 //            jLabel2.setText("Completed Neural network Testing with  ...");
 //            jLabel3.setText("Correct classifications of: "+results[0]+" ");
 //            jLabel4.setText("And Incorrect classifications of: "+results[1]+"");
-            
-                         }
-               else{
-                   jLabel1.setText("Testing process failed...");
-                }
-                   }
-                    else{
-                         jLabel1.setText("Training process failed...");
-                    }
+//            jProgressBar1.setValue(100);
+//            jButton2.setVisible(true);
+//            jTextPane1.setVisible(true);
+            } else {
+                jLabel1.setText("Testing process failed...");
+            }
+        } else {
+            jLabel1.setText("Training process failed...");
+        }
 
-}
-      
-      
-      
-      
-    public static String convertToMultiline(String orig)
-{
-    return  orig.replaceAll("\n", "<br>");
-}
-    
-    
-    
-    
-    
-        //Train the neural netowrk
-    public  void  trainNet() {
-        
+    }
+
+    public static String convertToMultiline(String orig) {
+        return orig.replaceAll("\n", "<br>");
+    }
+
+    //Train the neural netowrk
+    public void trainNet() {
+
         System.out.println();
-        try{
+        try {
             loadTrainData();
             nN = new IBk();
             nN.buildClassifier(trainSet);
-           // "Training Completed;
+            // "Training Completed;
             trained = true;
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             jLabel1.setText("Train file missing....");
             System.err.println(e.toString());
         } catch (Exception e) {
             System.err.println(e.toString());
         }
-     }
-    
-    
-    public  int[] testNet() {
-     
-       System.out.println();
+    }
+
+    public int[] testNet() {
+
+        System.out.println();
         int[] results = new int[2];
         if (!trained) {
             jLabel1.setText("Neural netowrk is not trained....");
@@ -313,11 +321,11 @@ JFileChooser fc = new JFileChooser();
                 loadTestData();
                 Evaluation tempEvaluator = new Evaluation(testSet);
                 tempEvaluator.evaluateModel(nN, testSet);
-                
-                results[0]=(int)tempEvaluator.correct();
-                results[1]=(int)tempEvaluator.incorrect();
-                tested=true;
-               // "Test completed;
+
+                results[0] = (int) tempEvaluator.correct();
+                results[1] = (int) tempEvaluator.incorrect();
+                tested = true;
+                // "Test completed;
 
             } catch (IOException e) {
                 //"Test file missing
@@ -328,9 +336,9 @@ JFileChooser fc = new JFileChooser();
         }
         return results;
     }
-    
+
     public static ArrayList<Double> predictNumber(String[] instanceData) {
-        
+
         ArrayList<Double> predictions = new ArrayList<>();
         if (!trained) {
             System.err.println("Neural netowrk is not trained....");
@@ -338,7 +346,7 @@ JFileChooser fc = new JFileChooser();
             Instance temp = toInstance(instanceData);
             try {
                 temp.setClassValue(nN.classifyInstance(temp));
-                for(double d:nN.distributionForInstance(temp)){
+                for (double d : nN.distributionForInstance(temp)) {
                     // classify all the instance in array
                     predictions.add(d);
                 }// giving a class value to the instance of teh image 
@@ -351,33 +359,31 @@ JFileChooser fc = new JFileChooser();
         }
         return predictions;
     }
-    
-    private static Instance toInstance(String[] instanceData){
-        try{
+
+    private static Instance toInstance(String[] instanceData) {
+        try {
             loadDataTemplate();
-            Instance tempInstance = new Instance(template.numAttributes());
-            tempInstance.setDataset(template);
-            
-            for(int index=0; index<instanceData.length;index++){
+            Instance tempInstance = new Instance(temp.numAttributes());
+            tempInstance.setDataset(temp);
+
+            for (int index = 0; index < instanceData.length; index++) {
                 tempInstance.setValue(index, instanceData[index]);
             }
-            template.add(tempInstance);
-        }
-        catch(Exception e){
+            temp.add(tempInstance);
+        } catch (Exception e) {
             System.err.println(e.toString());
         }
-        return template.lastInstance();
+        return temp.lastInstance();
     }
-    
-    
-    private static void loadDataTemplate() throws IOException{
+
+    private static void loadDataTemplate() throws IOException {
         //Loading the training data arff
         BufferedReader tempReader
                 = new BufferedReader(new FileReader(dataSetTemplate));
         //Converting data in to instances
-        template = new Instances(tempReader);
+        temp = new Instances(tempReader);
         //Class is last attribute in arff file type
-        template.setClassIndex(template.numAttributes() - 1);
+        temp.setClassIndex(temp.numAttributes() - 1);
     }
 
     private static void loadTrainData() throws IOException {
@@ -399,14 +405,48 @@ JFileChooser fc = new JFileChooser();
         //Class is last attribute in arff file type
         testSet.setClassIndex(testSet.numAttributes() - 1);
     }
-    
-    public static boolean isTrained(){
+
+    public static boolean isTrained() {
         return trained;
     }
-    
-    public static boolean isTested(){
+
+    public static boolean isTested() {
         return tested;
     }
+ ////////////////////////////////////////////////////////////////////////
+
+    public static void DetectDisease(String[] numberArray) {
+
+        ArrayList<Double> results = predictNumber(numberArray);
+
+        String value = "";
+        for (int index = 0; index < (results.size() - 1); index++) {
+            value += (convertToMultiline("De " + index + " : " + results.get(index)) + "\n");
+
+        }
+        System.out.println(value);
+
+        double LastResult = (results.get(results.size() - 1));
+        String aString = Double.toString(LastResult);
+        String dCode = (int) LastResult + "";
+
+        HashMap<String, String> tInfo = DB_Con.DBConnection
+                .getInstance()
+                .treatment(dCode);
+        String displayMessage = "";
+        
+        displayMessage = "D Name : " + tInfo.get("name")
+                +" \nCause : " + tInfo.get("cause")
+                +" \nTreatment : " + tInfo.get("treatments");
+        jt.setText(displayMessage);
+        
+
+        System.out.println("De : " + aString.substring(0, 1));
+        
+
+    }
+    
+
     /**
      * @param args the command line arguments
      */
@@ -446,11 +486,16 @@ JFileChooser fc = new JFileChooser();
     private javax.swing.JButton HelpButton;
     private javax.swing.JButton LCButton;
     private javax.swing.JButton RCButton;
+    private javax.swing.JScrollPane Result_Panel;
     private javax.swing.JLabel SkinColorjLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
+
+
+
 }
