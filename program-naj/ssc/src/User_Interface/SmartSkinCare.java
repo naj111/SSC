@@ -10,6 +10,8 @@ import Error_Logs.PathConfig;
 import static Image_Process.ImageProcess.LeftCheek;
 import static Image_Process.ImageProcess.RightCheek;
 import static Image_Process.SkinColour.SkinCol;
+import Neural_Network.NuralN;
+import static Neural_Network.NuralN.trainNet;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,16 +40,7 @@ public class SmartSkinCare extends javax.swing.JFrame {
 
     public static PathConfig I_PATH = new PathConfig();
     public static String MainPath = (I_PATH.GetPaths("PImage"));
-    public static String trainDataPath = "arff/traind.arff";
-    public static String testDataPath = "arff/testd.arff"; //1
-    public static String dataSetTemplate = "arff/temp.arff";
-    public static IBk nN;
 
-    public static Instances trainSet;
-    public static Instances testSet;
-    public static Instances temp;
-    public static boolean trained = false;
-    public static boolean tested = false;
     String filename = null;
     
     public static JTextArea jt;
@@ -57,7 +50,7 @@ public class SmartSkinCare extends javax.swing.JFrame {
      */
     public SmartSkinCare() {
         initComponents();
-        Startsys();
+        trainNet();
         RCButton.setOpaque(false);
         RCButton.setContentAreaFilled(false);
         LCButton.setOpaque(false);
@@ -262,169 +255,16 @@ public class SmartSkinCare extends javax.swing.JFrame {
         } // TODO add your handling code here:
     }//GEN-LAST:event_LCButtonActionPerformed
 
-    public void Startsys() {
+  
 
-        trainNet();
-        if (isTrained()) {
-
-//            jProgressBar1.setValue(70);
-//            jLabel6.setText("Testing the neural network....");
-            int[] results = testNet();
-            if (isTested()) {
-//            jLabel6.setText("Neural network ready....");
-//            jLabel2.setText("Completed Neural network Testing with  ...");
-//            jLabel3.setText("Correct classifications of: "+results[0]+" ");
-//            jLabel4.setText("And Incorrect classifications of: "+results[1]+"");
-//            jProgressBar1.setValue(100);
-//            jButton2.setVisible(true);
-//            jTextPane1.setVisible(true);
-            } else {
-                jLabel1.setText("Testing process failed...");
-            }
-        } else {
-            jLabel1.setText("Training process failed...");
-        }
-
-    }
-
-    public static String convertToMultiline(String orig) {
-        return orig.replaceAll("\n", "<br>");
-    }
-
-    //Train the neural netowrk
-    public void trainNet() {
-
-        System.out.println();
-        try {
-            loadTrainData();
-            nN = new IBk();
-            nN.buildClassifier(trainSet);
-            // "Training Completed;
-            trained = true;
-
-        } catch (IOException e) {
-            jLabel1.setText("Train file missing....");
-            System.err.println(e.toString());
-        } catch (Exception e) {
-            System.err.println(e.toString());
-        }
-    }
-
-    public int[] testNet() {
-
-        System.out.println();
-        int[] results = new int[2];
-        if (!trained) {
-            jLabel1.setText("Neural netowrk is not trained....");
-        } else {
-            try {
-                loadTestData();
-                Evaluation tempEvaluator = new Evaluation(testSet);
-                tempEvaluator.evaluateModel(nN, testSet);
-
-                results[0] = (int) tempEvaluator.correct();
-                results[1] = (int) tempEvaluator.incorrect();
-                tested = true;
-                // "Test completed;
-
-            } catch (IOException e) {
-                //"Test file missing
-                System.out.println(e.toString());
-            } catch (Exception e) {
-                System.err.println(e.toString());
-            }
-        }
-        return results;
-    }
-
-    public static ArrayList<Double> predictNumber(String[] instanceData) {
-
-        ArrayList<Double> predictions = new ArrayList<>();
-        if (!trained) {
-            System.err.println("Neural netowrk is not trained....");
-        } else {
-            Instance temp = toInstance(instanceData);
-            try {
-                temp.setClassValue(nN.classifyInstance(temp));
-                for (double d : nN.distributionForInstance(temp)) {
-                    // classify all the instance in array
-                    predictions.add(d);
-                }// giving a class value to the instance of teh image 
-                // listing all the index
-                predictions.add(temp.classValue());
-                // adding the closes value to last with its class value
-            } catch (Exception e) {
-                System.err.println(e.toString());
-            }
-        }
-        return predictions;
-    }
-
-    private static Instance toInstance(String[] instanceData) {
-        try {
-            loadDataTemplate();
-            Instance tempInstance = new Instance(temp.numAttributes());
-            tempInstance.setDataset(temp);
-
-            for (int index = 0; index < instanceData.length; index++) {
-                tempInstance.setValue(index, instanceData[index]);
-            }
-            temp.add(tempInstance);
-        } catch (Exception e) {
-            System.err.println(e.toString());
-        }
-        return temp.lastInstance();
-    }
-
-    private static void loadDataTemplate() throws IOException {
-        //Loading the training data arff
-        BufferedReader tempReader
-                = new BufferedReader(new FileReader(dataSetTemplate));
-        //Converting data in to instances
-        temp = new Instances(tempReader);
-        //Class is last attribute in arff file type
-        temp.setClassIndex(temp.numAttributes() - 1);
-    }
-
-    private static void loadTrainData() throws IOException {
-        //Loading the training data arff
-        BufferedReader tempReader
-                = new BufferedReader(new FileReader(trainDataPath));
-        //Converting data in to instances
-        trainSet = new Instances(tempReader);
-        //Class is last attribute in arff file type
-        trainSet.setClassIndex(trainSet.numAttributes() - 1);
-    }
-
-    private static void loadTestData() throws IOException {
-        //Loading the training data arff
-        BufferedReader tempReader
-                = new BufferedReader(new FileReader(testDataPath));
-        //Converting data in to instances
-        testSet = new Instances(tempReader);
-        //Class is last attribute in arff file type
-        testSet.setClassIndex(testSet.numAttributes() - 1);
-    }
-
-    public static boolean isTrained() {
-        return trained;
-    }
-
-    public static boolean isTested() {
-        return tested;
-    }
+    
  ////////////////////////////////////////////////////////////////////////
 
     public static void DetectDisease(String[] numberArray) {
 
-        ArrayList<Double> results = predictNumber(numberArray);
+        ArrayList<Double> results = NuralN.predictDisease(numberArray);
 
-        String value = "";
-        for (int index = 0; index < (results.size() - 1); index++) {
-            value += (convertToMultiline("De " + index + " : " + results.get(index)) + "\n");
-
-        }
-        System.out.println(value);
+        
 
         double LastResult = (results.get(results.size() - 1));
         String aString = Double.toString(LastResult);
@@ -435,7 +275,7 @@ public class SmartSkinCare extends javax.swing.JFrame {
                 .treatment(dCode);
         String displayMessage = "";
         
-        displayMessage = "D Name : " + tInfo.get("name")
+        displayMessage = "Disease Name : " + tInfo.get("name")
                 +" \nCause : " + tInfo.get("cause")
                 +" \nTreatment : " + tInfo.get("treatments");
         jt.setText(displayMessage);

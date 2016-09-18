@@ -23,7 +23,7 @@ public class ImageProcess {
 
     public static PathConfig I_PATH = new PathConfig(); // path configuration initialized
     public static String MainPath = (I_PATH.GetPaths("PImage")); // settign the image to the specific path
-    public static double impulseRatio = 0.01; // noise removal impulse ration set 
+//    public static double impulseRatio = 0.01; // noise removal impulse ration set 
     private static int size = 100;
     private static int pixSize = 1;
 
@@ -92,43 +92,43 @@ public class ImageProcess {
         ImageIO.write(Cheek, "jpg", new File(MainPath + " Cheekcontast.jpg"));
     }
 
-    //Image Noise Removal (Impulse noise removal)//
-    public static void impulseNoise(String path) throws IOException {
-        BufferedImage output = ImageIO.read(new File(path));
-        BufferedImage image = ImageIO.read(new File(path));
+//    //Image Noise Removal (Impulse noise removal)//
+//    public static void impulseNoise(String path) throws IOException {
+//        BufferedImage output = ImageIO.read(new File(path));
+//        BufferedImage image = ImageIO.read(new File(path));
+//
+//        output.setData(image.getData());
+//
+//        Raster source = image.getRaster();
+//        WritableRaster out = output.getRaster();
+//
+//        double rand;
+//        double halfImpulseRatio = impulseRatio / 2.0;
+//        int bands = out.getNumBands();
+//        int width = image.getWidth();  // width of the image
+//        int height = image.getHeight(); // height of the image
+//        java.util.Random randGen = new java.util.Random();
+//
+//        for (int j = 0; j < height; j++) {
+//            for (int i = 0; i < width; i++) {
+//                rand = randGen.nextDouble();
+//                if (rand < halfImpulseRatio) {
+//                    for (int b = 0; b < bands; b++) {
+//                        out.setSample(i, j, b, 0);
+//                    }
+//                } else if (rand < impulseRatio) {
+//                    for (int b = 0; b < bands; b++) {
+//                        out.setSample(i, j, b, 255);
+//                    }
+//                }
+//            }
+//        }
+//
+//        ImageIO.write(output, "jpg", new File(MainPath + " noiseremovl.jpg"));
+//
+//    }
 
-        output.setData(image.getData());
-
-        Raster source = image.getRaster();
-        WritableRaster out = output.getRaster();
-
-        double rand;
-        double halfImpulseRatio = impulseRatio / 2.0;
-        int bands = out.getNumBands();
-        int width = image.getWidth();  // width of the image
-        int height = image.getHeight(); // height of the image
-        java.util.Random randGen = new java.util.Random();
-
-        for (int j = 0; j < height; j++) {
-            for (int i = 0; i < width; i++) {
-                rand = randGen.nextDouble();
-                if (rand < halfImpulseRatio) {
-                    for (int b = 0; b < bands; b++) {
-                        out.setSample(i, j, b, 0);
-                    }
-                } else if (rand < impulseRatio) {
-                    for (int b = 0; b < bands; b++) {
-                        out.setSample(i, j, b, 255);
-                    }
-                }
-            }
-        }
-
-        ImageIO.write(output, "jpg", new File(MainPath + " noiseremovl.jpg"));
-
-    }
-
-    public static String[] LoadImage() {
+    public static String[] LoadImage() {//refactor
         String[] numberArray = null;
         try {
 
